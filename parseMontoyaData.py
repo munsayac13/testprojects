@@ -69,7 +69,7 @@ def parseDataMontoya():
         Iax.xaxis.set_major_formatter(datefmt)
         Iax.xaxis.set_label_text('Time')
         Iax.yaxis.set_label_text('Value Points')
-        Iax.title.set_text('Data Points from Data Center I')
+        Iax.title.set_text('RTB Request data points from Data Center I')
         Iax.plot_date(Icvrted_dates, dcI_values, label="Data Center I", color="red",marker="x",markersize=10)
 
         # Data Center S
@@ -77,7 +77,7 @@ def parseDataMontoya():
         Sax.xaxis.set_major_formatter(datefmt)
         Sax.xaxis.set_label_text('Time')
         Sax.yaxis.set_label_text('Value Points')
-        Sax.title.set_text('Data Points from Data Center S')
+        Sax.title.set_text('RTB Request data points from Data Center S')
         Sax.plot_date(Scvrted_dates, dcS_values, label="Data Center S", color="blue",marker="o",markersize=10)
         
         # Data Center A
@@ -85,7 +85,7 @@ def parseDataMontoya():
         Aax.xaxis.set_major_formatter(datefmt)
         Aax.xaxis.set_label_text('Time')
         Aax.yaxis.set_label_text('Value Points')
-        Aax.title.set_text('Data Points from Data Center A')
+        Aax.title.set_text('RTB Request data points from Data Center A')
         Aax.plot_date(Acvrted_dates, dcA_values, label="Data Center A", color="black",marker="*",markersize=10)
 
         
