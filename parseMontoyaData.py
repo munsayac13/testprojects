@@ -28,12 +28,18 @@ def parseDataMontoya():
                 lines = mf.readlines()
                 lines.pop(0)
         mf.close()
-        
+
+        ng_values = []
+        ng_dates = []
         # Find each item per data center and append its respective list
         for line in lines:
                 items = re.split(r'\t+', line.strip())
                 dt = datetime.fromtimestamp(float(items[1]))
                 
+                if float(items[2]) < 0:
+                        ng_dates.append(dt)
+                        ng_values.append(items[2])
+                        
                 if line.find('dc=I') != -1:
                         dcI_record.append(items)
                         dcI_dates.append(dt)
@@ -53,15 +59,24 @@ def parseDataMontoya():
                         dcA_dc.append(items[3])
                         continue
 
+        print "######################################################"
+        print "Data Center I has %d total entries" % len(dcI_dc)
+        print "Data Center S has %d total entries" % len(dcS_dc)
+        print "Data Center A has %d total entries" % len(dcA_dc)
+        
+        
         #dataCenters = sorted(set(all_record_datacenter))
         # Create plot figures for all 3 Data Centers
         f_dcI = plt.figure()
         f_dcS = plt.figure()
         f_dcA = plt.figure()
+        ngval = plt.figure()
+        
         datefmt = DateFormatter('%m-%d-%y %H:%M')
         Icvrted_dates = date2num(dcI_dates)
         Scvrted_dates = date2num(dcS_dates)
         Acvrted_dates = date2num(dcA_dates)
+        Ncvrted_dates = date2num(ng_dates)
         
 
         # Data Center I
@@ -88,6 +103,14 @@ def parseDataMontoya():
         Aax.title.set_text('RTB Request data points from Data Center A')
         Aax.plot_date(Acvrted_dates, dcA_values, label="Data Center A", color="black",marker="*",markersize=10)
 
+        
+        # Negative Values across Data Centers
+        Nax = ngval.add_subplot(111)
+        Nax.xaxis.set_major_formatter(datefmt)
+        Nax.xaxis.set_label_text('Time')
+        Nax.yaxis.set_label_text('Value Points')
+        Nax.title.set_text('RTB Request data points below 0 from ALL DCs')
+        Nax.plot_date(Ncvrted_dates, ng_values, label="Below 0", color="purple",marker="x",markersize=10)
         
         plt.show()
         
